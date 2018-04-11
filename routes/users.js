@@ -11,7 +11,7 @@ router.get('/:input', function (req, res, next) {
 })
 
 router.put('/:input', function (req, res, next) {
-  res.send('the new name is ' + req.params.input)
+  res.send('the new name is ' + req.body.input)
 })
 
 router.put('/:name', function (req, res, next) {
@@ -19,7 +19,7 @@ router.put('/:name', function (req, res, next) {
 })
 
 router.delete('/:input', function (req, res, next) {
-  res.send('No more user with ID ' + req.params.input)
+  res.send('No more user with ID ' + req.body.input)
 })
 
 module.exports = router

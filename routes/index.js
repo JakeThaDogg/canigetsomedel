@@ -1,6 +1,8 @@
 var express = require('express')
 var router = express.Router()
-const nodemailer = require('nodemailer')
+const multer = require('multer')
+const upload = multer({ dest: 'tmp/' })
+const fs = require('fs')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -15,10 +17,23 @@ function (req, res, next) {
   res.send('hello world')
 })
 
+router.get('/upload', function(req, res, next) {
+  res.render('upload')
+})
+
+router.post('/uploaddufichier', upload.single('fileup'), function (req, res, next) {
+  fs.rename(req.file.path, 'public/images/' + req.file.originalname, function (err) {
+    if (err) {
+        res.send('problème durant le déplacement');
+    } else {
+        res.send('Fichier uploadé avec succès');
+    }
+  })
+})
 /*
 
 router.get('/askForCookiesRecipe', function (req, res, next) {
-  let transporter = nodemailer.createTransport({
+  let transporter = nodemailer.createTransport({})
     service: 'Gmail',
     auth: {
       user: 'poirier.dev@gmail.com',
@@ -65,7 +80,6 @@ transporter.sendMail({
     }
 })
 */
-
 
 router.post('/forms-:num(\\d+)', (req, res) => {
   console.log(req.params.num)
